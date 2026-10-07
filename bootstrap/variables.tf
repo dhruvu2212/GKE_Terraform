@@ -25,3 +25,8 @@ variable "budget_currency" {
   type        = string
   default     = "INR"
 }
+
+variable "admin_email" {
+  description = "User allowed to impersonate the Terraform service account."
+  type        = string
+}
