@@ -1,29 +1,23 @@
-# Terraform working dirs (downloaded providers/modules; recreated by `terraform init`)
+# Terraform
 .terraform/
-
-# State: contains resource IDs and can contain secrets (e.g. DB passwords) in plaintext
 *.tfstate
 *.tfstate.*
 .terraform.tfstate.lock.info
-
-# Variable values: project IDs, billing account IDs, emails. Commit only *.tfvars.example
-*.tfvars
-*.tfvars.json
-!*.tfvars.example
-
-# Local-only overrides and crash dumps
+*.tfplan
+tfplan
+crash.log
+crash.*.log
 override.tf
 override.tf.json
 *_override.tf
 *_override.tf.json
-crash.log
-crash.*.log
 
-# Plan files can contain sensitive values
-*.tfplan
-tfplan
+# Variable values
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
 
-# Credentials / key files (we use impersonation, so none should exist, but belt and braces)
+# Credentials
 *.json.key
 *-key.json
 *credentials*.json
@@ -36,5 +30,3 @@ tfplan
 .DS_Store
 .idea/
 .vscode/
-
-# NOTE: .terraform.lock.hcl is intentionally NOT ignored; it pins provider versions + checksums.
