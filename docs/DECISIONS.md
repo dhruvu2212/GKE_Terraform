@@ -65,3 +65,21 @@ The two roots have different lifecycles, so they get different state. The patter
 - *`roles/editor`:* too broad, and it can't do IAM.
 - *`roles/owner`:* defeats the purpose of a separate identity.
 - *Authoritative `google_project_iam_binding`/`_policy`:* would strip Google-managed service agents and the human Owner from roles they share.
+
+---
+
+## #4 Delete the auto-created `default` VPC
+
+**Date:** 2026-10-08
+
+**Decision:** Enabling the Compute API auto-created a `default` auto-mode VPC with firewall rules that allow SSH (22), RDP (3389) and ICMP from `0.0.0.0/0`. It was deleted once with `gcloud`, after bootstrap. All workloads use the custom VPC defined in `infra/`.
+
+**Why:** The default network is unused, and its rules expose any VM accidentally placed in it to the internet. Removing it leaves exactly one network, defined in code.
+
+**Why not in Terraform:** The default network is created by GCP, not by this config. Importing it just to delete it adds complexity for a one-time cleanup.
+
+**Production:** The org policy `compute.skipDefaultNetworkCreation` stops it being created at all. A personal account has no Organization, so the policy isn't available here.
+
+**Alternatives rejected:**
+- *Leave it:* harmless while empty, but it's an open door with no purpose.
+- *Create the project with Terraform using `auto_create_network = false`:* the right answer when a project factory creates projects. Here the project was created by hand.
