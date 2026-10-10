@@ -1,0 +1,4 @@
+project_id         = "your-project-id"
+region             = "asia-south1"
+zone               = "asia-south1-a"
+terraform_sa_email = "terraform@your-project-id.iam.gserviceaccount.com"
